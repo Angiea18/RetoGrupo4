@@ -1,77 +1,78 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { API_CONSTANTS } from '../config/constants';
+import { RegisterDataModel } from '@models/registerdata.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiBaseUrl = 'http://localhost:3000';
-  private loginUrl = `${this.apiBaseUrl}/api/login`;
-  private refreshUrl = `${this.apiBaseUrl}/api/refresh`;
+  rememberMe: boolean = false;
+  private isLogged: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  IsLogged$ = this.isLogged.asObservable();
 
-  private tokenKey = 'jwtToken';
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(
-    !!this.getToken()
-  );
+  private apiUrl = API_CONSTANTS.BASE_URL + API_CONSTANTS.AUTH_ENPOINT;
 
-  constructor(private http: HttpClient) {}
+  constructor(@Inject(HttpClient) private http: HttpClient) {
+    const token = this.getAuthToken();
+    this.setLogging(!!token); // Configura el estado de sesión
+  }
 
-  login(credentials: { username: string; password: string }): Observable<any> {
-    return this.http.post(this.loginUrl, credentials).pipe(
-      map((response: any) => {
-        if (response?.token) {
-          this.storeToken(response.token);
-          this.isAuthenticatedSubject.next(true);
+  register(userData: RegisterDataModel): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, userData);
+  }
+
+  checkToken() {
+    const token = this.getAuthToken();
+    this.setLogging(!!token); // Solo establece la sesión activa si hay token
+  }
+
+  login(credentials: any, rememberMe: boolean = false): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
+      tap((res) => {
+        console.log(res);
+        if (res.token) {
+          if (rememberMe) {
+            localStorage.setItem('authToken', res.token);
+          } else {
+            sessionStorage.setItem('authToken', res.token);
+          }
+          this.setLogging(true);
         }
-        return response;
-      }),
-      catchError((error) => {
-        console.error('Login failed', error);
-        throw error;
       })
     );
   }
 
-  refreshToken(): Observable<any> {
-    return this.http
-      .post(this.refreshUrl, {}, { headers: this.getAuthHeaders() })
-      .pipe(
-        map((response: any) => {
-          if (response?.token) {
-            this.storeToken(response.token);
-          }
-          return response;
-        }),
-        catchError((error) => {
-          console.error('Token refresh failed', error);
-          throw error;
-        })
-      );
+  onRememberMeChange(event: any) {
+    this.rememberMe = event.target.checked;
   }
 
-  isAuthenticated(): Observable<boolean> {
-    return this.isAuthenticatedSubject.asObservable();
+  getAuthToken() {
+    return (
+      localStorage.getItem('authToken') || sessionStorage.getItem('authToken')
+    );
   }
 
-  logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    this.isAuthenticatedSubject.next(false);
+  // Solicitar el token de restablecimiento de contraseña
+
+  requestPasswordReset(email: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/forgot-password`, email);
   }
 
-  private storeToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
+  // Cambiar la contraseña con el token de reset
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    const url = `${this.apiUrl}/reset-password`;
+    return this.http.post(url, { token, newPassword });
   }
 
-  private getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+  setLogging(value: boolean) {
+    this.isLogged.next(value);
   }
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.getToken();
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
+  logout() {
+    localStorage.removeItem('authToken');
+    sessionStorage.removeItem('authToken');
+    this.setLogging(false);
   }
 }
