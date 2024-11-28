@@ -1,21 +1,21 @@
-import {Component, ElementRef, inject, OnInit, signal} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterOutlet} from '@angular/router';
-import {GraphsComponent} from './components/graphs/graphs.component';
+import { Component, ElementRef, inject, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { GraphsComponent } from './components/graphs/graphs.component';
 
-import {Question} from '@models/question.model';
-import {RenderFormDirective} from './directives/render-form.directive';
-import {FooterComponent} from './pages/components/footer/footer.component';
-import {GlobalProviderService} from '@services/global-provider.service';
-import {GraphCircleComponent} from './components/graph-circle/graph-circle.component';
-import {LoginComponent} from './pages/login/login.component';
-import {RegisterComponent} from './pages/register/register.component';
+import { Question } from '@models/question.model';
+import { RenderFormDirective } from './directives/render-form.directive';
+import { FooterComponent } from './pages/components/footer/footer.component';
+import { GlobalProviderService } from '@services/global-provider.service';
+import { GraphCircleComponent } from './components/graph-circle/graph-circle.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 type Answers =
   | {}
   | {
-  [key: string | number]: string;
-};
+      [key: string | number]: string;
+    };
 
 @Component({
   selector: 'app-root',
@@ -85,8 +85,6 @@ export class AppComponent implements OnInit {
     this.#progress = document.getElementById('progreso');
 
     startTest.addEventListener('click', this._handlerStartTest.bind(this));
-    //cargar formularios desde json server
-    // this._fetchData()
 
     // Hacer el fade in de la barra de navegacón
     this.#nav.addEventListener('mouseover', this._handleHover.bind(0.5));
@@ -104,7 +102,7 @@ export class AppComponent implements OnInit {
       // Matching strategy
       if (e.target.classList.contains('nav__link')) {
         const id = e.target.getAttribute('href');
-        document.querySelector(id).scrollIntoView({behavior: 'smooth'});
+        document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
       }
     });
     this.#allSections.forEach(function (section: HTMLHtmlElement) {
@@ -122,28 +120,12 @@ export class AppComponent implements OnInit {
     headerObserver.observe(this.#header);
 
     this._setupResultsButton();
-    // this._setupBorrarButton();
+
     this._setupResultsButton();
-    // this._setupBorrarButton();
   }
 
-  // _setupBorrarButton() {
-  //   const borrarBtn = this.el.nativeElement.querySelector('#borrarBtn');
-  //   if (!borrarBtn) {
-  //     console.error('Botón "Borrar Respuestas" no encontrado.');
-  //     return;
-  //   }
-
-  //   borrarBtn.addEventListener('click', () => {
-  //     console.log('reset');
-  //     this.resetForm();
-  //     window.location.hash = '#section--1';
-  //     window.location.reload();
-  //   });
-  // }
-
   resetForm(): void {
-    this.globalProvider.reset()
+    this.globalProvider.reset();
   }
 
   _revealSection(
@@ -164,8 +146,6 @@ export class AppComponent implements OnInit {
     this.el.nativeElement
       .querySelector(`.nav__link[href="#${id}"]`)
       .classList.add('selected-link');
-    // entry.target.classList.remove('section--hidden');
-    // observer.unobserve(entry.target);
   }
 
   _handleHover(e: any) {
@@ -187,11 +167,9 @@ export class AppComponent implements OnInit {
     e.preventDefault();
 
     const id: String | null = target.getAttribute('href');
-    //console.log(id);
-    // console.log(id)
     this.el.nativeElement
       .querySelector(id)
-      .scrollIntoView({behavior: 'smooth'});
+      .scrollIntoView({ behavior: 'smooth' });
   }
 
   _getProgress() {
@@ -201,17 +179,6 @@ export class AppComponent implements OnInit {
       (Object.keys(this.answers).length / this.numberOfQuestions) * 100
     );
   }
-
-  // _fetchData() {
-  //   fetch("http://localhost:3000/questions")
-  //     .then((response) => {
-  //       if (!response.ok) throw new Error("there is no data");
-  //       return response.json();
-  //     })
-  //     .then((data: Question[]) => {
-  //       this.provider.numberOfQuestions = data.length;
-  //     });
-  // }
 
   _createStickyNav(entries: any) {
     const [entry] = entries;
@@ -230,61 +197,46 @@ export class AppComponent implements OnInit {
     }
 
     showResultsButton.addEventListener('click', () => {
-      const fieldsets = this.el.nativeElement.querySelectorAll('.form-container fieldset')
-
-      // const fieldsetIds = fieldsets.map(
-      //   (fieldset) => fieldset.getAttribute('data-question-id') || ''
-      // );
-      //
-      // const unansweredFieldsets = fieldsetIds.filter(
-      //   (id) => !this.answers.hasOwnProperty(id)
-      // );
+      const fieldsets = this.el.nativeElement.querySelectorAll(
+        '.form-container fieldset'
+      );
 
       // Resetear cualquier error previo
       fieldsets.forEach((fieldset: HTMLHtmlElement) => {
         fieldset.classList.remove('fieldset-error');
       });
 
-      if (Object.entries(this.globalProvider.answers()).length < this.globalProvider.numberOfQuestions) {
+      if (
+        Object.entries(this.globalProvider.answers()).length <
+        this.globalProvider.numberOfQuestions
+      ) {
         const answerIds = Object.keys(this.globalProvider.answers());
 
-        // const unansweredElements = Array.from(
-        //   this.el.nativeElement.querySelectorAll(
-        //     `.form-container fieldset[data-question-id="${unansweredFieldsets.join(
-        //       '"], .form-container fieldset[data-question-id="'
-        //     )}"]`
-        //   )
-        // ) as HTMLFieldSetElement[];
         fieldsets.forEach((fieldset: HTMLHtmlElement) => {
-          const current = fieldset.getAttribute("data-question-id");
+          const current = fieldset.getAttribute('data-question-id');
           if (current) {
             if (!answerIds.includes(current))
               fieldset.classList.add('fieldset-error');
           }
         });
 
-        const questionsKeys = Array.from({length: this.globalProvider.numberOfQuestions}, (_, i) => String(i + 1));
+        const questionsKeys = Array.from(
+          { length: this.globalProvider.numberOfQuestions },
+          (_, i) => String(i + 1)
+        );
 
+        const queue = questionsKeys.filter(
+          (element) => !answerIds.includes(element)
+        );
 
-        const queue = questionsKeys.filter(element => !answerIds.includes(element));
-
-        const currentTarget: HTMLHtmlElement = this.el.nativeElement.querySelector(`.form-container fieldset[data-question-id="${queue[0]}"]`)
+        const currentTarget: HTMLHtmlElement =
+          this.el.nativeElement.querySelector(
+            `.form-container fieldset[data-question-id="${queue[0]}"]`
+          );
         currentTarget.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
-        })
-        // unansweredElements.forEach((fieldset) => {
-        //   if (fieldset) {
-        //     fieldset.classList.add('fieldset-error');
-        //   }
-        // });
-
-        // if (unansweredElements.length > 0 && unansweredElements[0]) {
-        //   unansweredElements[0].scrollIntoView({
-        //     behavior: 'smooth',
-        //     block: 'center',
-        //   });
-        // }
+        });
       } else {
         console.log('Todas las preguntas han sido respondidas.');
         const radarSection =

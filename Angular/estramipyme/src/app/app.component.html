@@ -1,5 +1,5 @@
 <div class="modal">
-  <router-outlet/>
+  <router-outlet />
 </div>
 <header class="header">
   <!--  <button (click)="toggleLogin()">login</button>-->
@@ -106,49 +106,7 @@
       class="form-container"
       appRenderForm
       url="http://localhost:3000/questions/?section=cliente"
-    >
-      <!-- <form class="form--1">
-        <fieldset class="questions question--1" data-question-id="1">
-          <legend data-l-s="8232">
-            ¿Qué tan precisa es la información demográfica de sus clientes
-            (edad, género, ubicación, etc.) en su base de datos?
-          </legend>
-          <label>
-            <input
-              type="radio"
-              name="Q1"
-              value="1"
-              class="radioinput radioinput__section--1"
-              data-id="1-1"
-            />Notengo </label
-          ><label>
-            <input
-              type="radio"
-              name="Q1"
-              value="2"
-              class="radioinput radioinput__section--1"
-              data-id="1-2"
-            />Muy poco </label
-          ><label>
-            <input
-              type="radio"
-              name="Q1"
-              value="3"
-              class="radioinput radioinput__section--1"
-              data-id="1-3"
-            />Buena </label
-          ><label>
-            <input
-              type="radio"
-              name="Q1"
-              value="4"
-              class="radioinput radioinput__section--1"
-              data-id="1-4"
-            />excelente
-          </label>
-        </fieldset>
-      </form> -->
-    </div>
+    ></div>
   </section>
 
   <section class="section section__main" id="section--2">
@@ -239,18 +197,39 @@
   </section>
   <section class="section section-undo">
     <div class="button-container">
-      <button class="btn--borrar-formulario" id="borrarBtn" (click)="resetForm()">
-        <svg xmlns="http://www.w3.org/2000/svg" class="trashIcon"
-             viewBox="0 0 512 512">
-          <path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320"
-                fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                stroke-width="32"/>
-          <path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
-                stroke-width="32" d="M80 112h352"/>
+      <button
+        class="btn--borrar-formulario"
+        id="borrarBtn"
+        (click)="resetForm()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="trashIcon"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="32"
+          />
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-miterlimit="10"
+            stroke-width="32"
+            d="M80 112h352"
+          />
           <path
             d="M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224"
-            fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-            stroke-width="32"/>
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="32"
+          />
         </svg>
         Borrar Respuestas
       </button>
@@ -260,14 +239,14 @@
   <section class="section section-see-results">
     <div class="section-intro">
       <h3 class="section__header">
-        ¡Gracias por completar el formulario! <br/>
+        ¡Gracias por completar el formulario! <br />
         Apreciamos tu tiempo y colaboración.
       </h3>
     </div>
     <button class="btn btn--show-modal">Ver resultados!</button>
   </section>
-  <app-graphs/>
+  <app-graphs />
   <app-graph-circle></app-graph-circle>
   <!--  <canvas id="myChart" class="myChart"></canvas>-->
-  <app-footer/>
+  <app-footer />
 </main>

@@ -1,42 +1,23 @@
-<!-- <header>
-  <div class="header-container">
-    <img
-      src="assets/images/logo_eafit.png"
-      alt="EAFIT logo"
-      class="nav__logo"
-      id="logo"
-    />
-    <div class="header-titles">
-      <div class="heading-primary">ESTRAMIPYME</div>
-      <div class="heading-secondary">Planeación Estratégica</div>
-    </div>
-    <nav class="navigation">
-      <a routerLink="/">Inicio</a>
-      <a routerLink="/login">Iniciar sesión</a>
-      <a routerLink="/register">Registrarse</a>
-    </nav>
-  </div>
-</header> -->
-
 <div class="container">
   <h2 class="heading-form">Registrarse</h2>
   <form id="register-form" (ngSubmit)="onSubmit(form)" #form="ngForm">
     <div class="register-form-cols">
-
       <fieldset class="register-form__item">
-
         <label for="register-names">Nombres:</label>
-        <input type="text" id="register-names" name="name" ngModel required
+        <input type="text" id="register-names" name="name" ngModel required />
+      </fieldset>
+      <fieldset class="register-form__item">
+        <label for="register-surnames">Apellidos:</label>
+        <input
+          type="text"
+          id="register-surnames"
+          required
+          name="surname"
+          ngModel
         />
       </fieldset>
-      <fieldset class="register-form__item">
-
-        <label for="register-surnames">Apellidos:</label>
-        <input type="text" id="register-surnames" required name="surname" ngModel/>
-      </fieldset>
 
       <fieldset class="register-form__item">
-
         <label for="register-person-type">Tipo de Persona:</label>
         <select id="register-person-type" required name="personType" ngModel>
           <option value="sel">Selecciona</option>
@@ -45,7 +26,6 @@
         </select>
       </fieldset>
       <fieldset class="register-form__item">
-
         <label for="register-doc-type">Tipo de Documento:</label>
         <select id="register-doc-type" required name="docType" ngModel>
           <option value="sel">Selecciona</option>
@@ -56,16 +36,25 @@
       </fieldset>
 
       <fieldset class="register-form__item">
-
         <label for="register-doc-number">Número de Documento:</label>
-        <input type="number" id="register-doc-number" required name="docNumber" ngModel/>
+        <input
+          type="number"
+          id="register-doc-number"
+          required
+          name="docNumber"
+          ngModel
+        />
       </fieldset>
 
       <fieldset class="register-form__item">
         <label for="register-business-name">Razón Social:</label>
-        <input type="text" id="register-business-name" required name="businessName"
-               ngModel/>
-
+        <input
+          type="text"
+          id="register-business-name"
+          required
+          name="businessName"
+          ngModel
+        />
       </fieldset>
 
       <fieldset class="register-form__item">
@@ -80,7 +69,9 @@
           <option value="construcción">Construcción e Infraestructura</option>
           <option value="consultoria">Consultoría</option>
           <option value="deportes">Deportes y Recreación</option>
-          <option value="electronica">Electrónica y Tecnología de Consumo</option>
+          <option value="electronica">
+            Electrónica y Tecnología de Consumo
+          </option>
           <option value="energia">Energía</option>
           <option value="educacion">Educación</option>
           <option value="finanzas">Finanzas y Banca</option>
@@ -106,34 +97,39 @@
       </fieldset>
 
       <fieldset class="register-form__item">
-
         <label for="register-otro">Otro Sector:</label>
-        <input type="text" id="register-otro" name="otroSector" ngModel/>
+        <input type="text" id="register-otro" name="otroSector" ngModel />
       </fieldset>
 
       <fieldset class="register-form__item">
         <label for="register-email">Correo Electrónico:</label>
-        <input type="email" id="register-email" required name="email" ngModel/>
-
+        <input type="email" id="register-email" required name="email" ngModel />
       </fieldset>
 
       <fieldset class="register-form__item">
-
         <label for="register-password">Contraseña:</label>
-        <input type="password" id="register-password" required name="password" ngModel/>
+        <input
+          type="password"
+          id="register-password"
+          required
+          name="password"
+          ngModel
+        />
       </fieldset>
 
       <fieldset [class.password-error]="passwordDoNotMatch()">
         <label for="register-confirm-password">Confirmar Contraseña:</label>
-        <input type="password" id="register-confirm-password" required
-               name="confirmPassword" ngModel/>
+        <input
+          type="password"
+          id="register-confirm-password"
+          required
+          name="confirmPassword"
+          ngModel
+        />
       </fieldset>
-
-
     </div>
     <div>
       <fieldset class="register-form__item">
-
         <label class="datos-personales">
           <!--          <input type="checkbox" id="register-accept-data" required name="acceptDataProcPolicy"-->
           <!--                 ngModel/>-->
@@ -148,11 +144,10 @@
       </fieldset>
     </div>
     <div class="register-go-back">
-
-      <button type="button" id="go-back" (click)="navigateTo('')">Regresar</button>
+      <button type="button" id="go-back" (click)="navigateTo('')">
+        Regresar
+      </button>
       <button type="submit" id="registerButton">Registrarse</button>
     </div>
-
-
   </form>
 </div>
